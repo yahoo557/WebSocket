@@ -1,0 +1,25 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd server && npx nodemon server"
+
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "mkcert": "^1.5.0",
+    "nodemon": "^2.0.18",
+    "pm2": "^5.2.0",
+    "ws": "^8.8.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  }
+}
