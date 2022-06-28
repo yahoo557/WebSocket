@@ -1,0 +1,8 @@
+/node_modules
+/.pnp
+.pnp.js
+server/config/*.jf
+server/config/*.crt
+server/config/*.key
+server/*.crt
+server/*.key
