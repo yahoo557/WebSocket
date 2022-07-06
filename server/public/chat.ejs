@@ -8,56 +8,58 @@
     <title>(N) Instagram </title> 
 </head>
 <body>
+    <ul id = "chat_log">
+
+    </ul>
     <button id="btn_close">연결 끊기</button>
-    <button id="btn_send">메시지 전송</button>
+    
     
     <textarea id="text">
     </textarea>
+    <button id="btn_send">메시지 전송</button>
 </body>
 <script>
-    
     // 1. 웹소켓 클라이언트 객체 생성
     const webSocket = new WebSocket("ws://127.0.0.1:8001/chat");
     webSocket.onopen = ()=>{
         console.log("웹소켓서버와 연결 성공");
     };
-
     // 2-2) 메세지 수신 이벤트 처리
     webSocket.onmessage = function (event) {
         console.log(`서버 웹소켓에게 받은 데이터: ${event.data}`);
     }
-
     // 2-3) 연결 종료 이벤트 처리
     webSocket.onclose = function(){
         console.log("서버 웹소켓 연결 종료");
     }
-
     // 2-4) 에러 발생 이벤트 처리
     webSocket.onerror = function(event){
         console.log(event)
     }
-
-
     // 3. 버튼 클릭 이벤트 처리
     // 3-1) 웹소켓 서버에게 메세지 보내기
-    
-    
     document.getElementById("btn_send").onclick = function(){
-
         if(webSocket.readyState === webSocket.OPEN){ // 연결 상태 확인
-            var chat_text = document.getElementById("text").value
+            var addValue = document.getElementById('text').value;
+            const li = document.createElement("li");
+            li.setAttribute('id', addValue);
 
-            webSocket.send(`send message :  ${chat_text}`); // 웹소켓 서버에게 메시지 전송
-            
+            // 2-3. li에 text node 추가 
+            const textNode = document.createTextNode(addValue);
+            li.appendChild(textNode);
 
-        }else{
+            // 3. 생성된 li를 ul에 추가
+            document.getElementById('chat_log').appendChild(li);
+            webSocket.send(`send message :  ${addValue}`); // 웹소켓 서버에게 메시지 전송
+            document.getElementById('text').value =  ' ';
+        }
+        else{
             alert("연결된 웹소켓 서버가 없습니다.");
         }
     }
 
     // 3-2) 웹소켓 서버와 연결 끊기
     document.getElementById("btn_close").onclick = function(){
-
         if(webSocket.readyState === webSocket.OPEN){ // 연결 상태 확인
             webSocket.close(); // 연결 종료
 
