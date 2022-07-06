@@ -1,18 +1,20 @@
 const express = require("express");
 const router = express.Router();
+const wsModule = require('ws');
+const HTTPSServer = require("../config/https.config")
 
 router.get("/", (req, res)=>{
 
     
-    return res.status(200).render()
+    return res.status(200).render(chat)
 })
-// 1. ws 모듈 취득
-const wsModule = require('ws');
+
+
 
 // 2. WebSocket 서버 생성/구동
 const webSocketServer = new wsModule.Server( 
     {
-        server: HTTPServer, // WebSocket서버에 연결할 HTTP서버를 지정한다.
+        server: HTTPSServer, // WebSocket서버에 연결할 HTTP서버를 지정한다.
         //port: 30002 // WebSocket연결에 사용할 port를 지정한다(생략시, http서버와 동일한 port 공유 사용)
     }
 );
