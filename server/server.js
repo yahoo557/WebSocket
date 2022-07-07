@@ -1,5 +1,10 @@
 const express = require("express")
 const app = express();
+
+require("dotenv").config({ path:'/variables.env' })
+
+
+
 const wsModule = require('ws');
 const chat = require("./router/chat")
 app.use(express.json());
@@ -9,6 +14,11 @@ const https_option = require("./config/ssl.config")
 const ws = require('ws')
 const { WebSocketServer } = require('ws');
 const port = 8000
+const dbclient = require("./config/db.config")
+
+
+
+
 app.engine('html', require('ejs').renderFile);
 
 app.get("/", (req, res) => {
@@ -23,15 +33,25 @@ const server = https.createServer(https_option, app).listen(port, function () {
 });
 
 
-
-
 //serve static folder
 
 const wss = new WebSocketServer({  port:8001 }) // (2)
 wss.on('connection', (client) => {
-  console.log('Client connected !')
+  const nDate = new Date().toLocaleString('kr-KR', {
+    timeZone: 'Asia/Seoul'
+  });
+  console.log(`Client connected at : ${nDate}`)
   client.on('message', (msg) => {    // (3)
-    console.log(`Message:${msg}`);
+    console.log(`Message:${msg}`);    
+    dbclient.connect( (err, db)=>{
+      if(err){
+        console.log(`db error : ${err}`)
+      }
+      else{
+        db.collection('chat').insert({receiver : 2, send_time : 0, sender :1, text:msg});
+        db.close();
+      }
+    })
     broadcast(msg)
   })
 })

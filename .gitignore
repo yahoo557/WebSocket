@@ -6,3 +6,5 @@ server/config/*.crt
 server/config/*.key
 server/*.crt
 server/*.key
+
+/*.env
