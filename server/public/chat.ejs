@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/index.css">
-    <title></title>
+    <link rel="stylesheet" href="index.css">
+    <title>Minimlist chat App</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
         </form>
     </div>
     <script type="text/javascript">
-        const ws = new WebSocket('ws://localhost:8001/chat/1');
+        const ws = new WebSocket('ws://localhost:8001/');
         ws.binaryType = "blob";
         // Log socket opening and closing
         ws.addEventListener("open", event => {
