@@ -3,8 +3,10 @@ const router = express.Router();
 const wsModule = require('ws');
 // const HTTPSServer = require("../config/https.config")
 
-router.get("/", (req, res)=>{
+router.get("/:id", (req, res)=>{
+    const room_id = req.params.id
     
+
     return res.status(200).render("../public/chat.ejs")
 })
 
@@ -32,6 +34,7 @@ webSocketServer.on('connection', (ws, request)=>{
     
     // 3) 클라이언트로부터 메시지 수신 이벤트 처리
     ws.on('message', (msg)=>{
+        
         console.log(`클라이언트[${ip}]에게 수신한 메시지 : ${msg}`);
     })
     
