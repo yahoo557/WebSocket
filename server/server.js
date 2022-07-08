@@ -43,12 +43,13 @@ wss.on('connection', (client) => {
   console.log(`Client connected at : ${nDate}`)
   client.on('message', (msg) => {    // (3)
     console.log(`Message:${msg}`);    
-    dbclient.connect( (err, db)=>{
+    dbclient.connect('mongodb://localhost:27017/chat', (err, db)=>{
       if(err){
         console.log(`db error : ${err}`)
       }
       else{
-        db.collection('chat').insert({receiver : 2, send_time : 0, sender :1, text:msg});
+        var chat_log = {receiver : 2, send_time : 0, sender : 1, text : msg}
+        db.colection('chat').insert(chat_log);
         db.close();
       }
     })

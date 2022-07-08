@@ -1,8 +1,5 @@
-const { MongoClient } = require('mongodb');
-const url = 'mongodb://localhost:27017';
-const dbName = 'chat';
-const client = new MongoClient(url);
-
-
+const client = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017/chat';
 
 module.exports = client
+
