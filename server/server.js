@@ -17,39 +17,42 @@ const port = 8000
 const dbclient = require("./config/db.config")
 
 const routes = require('./router/index');
+const nDate = new Date().toLocaleString('kr-KR', {
+  timeZone: 'Asia/Seoul'
+});
 app.use('/', routes);
 
-
-
-
-
-
 app.get("/", (req, res) => {
-  const nDate = new Date().toLocaleString('kr-KR', {
-    timeZone: 'Asia/Seoul'
-  });
-  return res.status(200).send(nDate)
+  
+  return res.status(200).send(`Connected Time : ${nDate}`)
 })
 
 const server = https.createServer(https_option, app).listen(port, function () {
-  console.log("HTTPS server listening on port " + port);
+  
+  console.log(`HTTPS server listening on port ${port} at ${nDate}` );
 });
 
 
 //serve static folder
 
-const wss = new WebSocketServer({  port:8001 }) // (2)
+const wss = new WebSocketServer({  port:8001 }) 
 wss.on('connection', (client) => {
-  const nDate = new Date().toLocaleString('kr-KR', {
-    timeZone: 'Asia/Seoul'
-  });
-  console.log(`Client connected at : ${nDate}`)
-  client.on('message', (msg) => {    // (3)
-    console.log(`Message:${msg}`);    
+  console.log(`WebSocket server listening on port 8001 at ${nDate}` );
+  var cnt = 0;
+  client.on('message', (msg) => {    
+    console.log(`Message:${msg}`);
+    dbclient.connect((err,db)=>{
+      db.db('chat').collection('chat').insertOne({
+        receiver : cnt++,
+        sender : cnt,
+        text : msg,
+        send_time : nDate
+      })
+    })
     broadcast(msg)
   })
 })
-function broadcast(msg) {       // (4)
+function broadcast(msg) {       
   for (const client of wss.clients) {
     if (client.readyState === ws.OPEN) {
       client.send(msg)

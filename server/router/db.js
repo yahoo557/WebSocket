@@ -7,22 +7,18 @@ const client = new MongoClient(url)
 
 
 router.get("/:id", (req, res) => {
-    var clientip = req.headers['x-forwarded-for']  || req.connection.remoteAddress;
+    var clientIp = req.headers['x-forwarded-for']  || req.connection.remoteAddress;
     const id = req.params.id
     const nDate = new Date().toLocaleString('kr-KR', {
         timeZone: 'Asia/Seoul'
       });
     client.connect( (err, db)=>{
-        db.db(dbName).collection('chat').insertOne({
-            receiver : 4, 
-            sender : 2,
-            time : 0,
-            send_time : 0,
-            text : 0
+        db.db(dbName).collection('log').insertOne({
+            client_ip : clientIp,
+            connect_time : nDate
         });
     })
-
-    return res.status(200).send(`ip : ${clientip}, id : ${id}`)
+    return res.status(200).send(`ip : ${clientIp}, id : ${id}`)
 })
 
 module.exports = router;
