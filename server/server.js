@@ -1,14 +1,14 @@
 const express = require("express")
 const app = express();
-
+const router = express.Router()
 require("dotenv").config({ path:'/variables.env' })
 
-
-
-const wsModule = require('ws');
-const chat = require("./router/chat")
 app.use(express.json());
-app.use("/chat", chat)
+app.use(express.urlencoded({extended: true}));
+const path = require("path");
+app.engine('html', require('ejs').renderFile);
+const wsModule = require('ws');
+
 const https = require("https")
 const https_option = require("./config/ssl.config")
 const ws = require('ws')
@@ -16,10 +16,13 @@ const { WebSocketServer } = require('ws');
 const port = 8000
 const dbclient = require("./config/db.config")
 
+const routes = require('./router/index');
+app.use('/', routes);
 
 
 
-app.engine('html', require('ejs').renderFile);
+
+
 
 app.get("/", (req, res) => {
   const nDate = new Date().toLocaleString('kr-KR', {
@@ -43,16 +46,6 @@ wss.on('connection', (client) => {
   console.log(`Client connected at : ${nDate}`)
   client.on('message', (msg) => {    // (3)
     console.log(`Message:${msg}`);    
-    dbclient.connect('mongodb://localhost:27017/chat', (err, db)=>{
-      if(err){
-        console.log(`db error : ${err}`)
-      }
-      else{
-        var chat_log = {receiver : 2, send_time : 0, sender : 1, text : msg}
-        db.colection('chat').insert(chat_log);
-        db.close();
-      }
-    })
     broadcast(msg)
   })
 })
