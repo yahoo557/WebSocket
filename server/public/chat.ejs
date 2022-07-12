@@ -48,6 +48,8 @@
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const message = document.getElementById('inputBox').value;
+
+            //여기에 보낸사람 ip나 닉네임을 담아서 send로 보내는 방법을 간구해야함
             ws.send(message);
             document.getElementById('inputBox').value = ''
         })
