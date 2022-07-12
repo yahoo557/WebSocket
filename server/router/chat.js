@@ -25,7 +25,13 @@ router.get("/:id", (req, res)=>{
     const myId = id.slice(0,24)
     const partnerId = id.slice(24)
 
-    // 상대방과 나의 id를 슬라이스 한후 db에서 
+    // 1. 메세지 내역 불러 오기전, 해당 url로 접근이 가능한지 현재 로그인 되어있는 유저의 authentication 검증
+
+    // 2. 검증값이 유효하다면 해당 채팅방에 대한 권한이 있는지 검증
+
+    // 3. 2번 검증까지 유효하다면 해당 다이렉트 메세지 내용 find()쿼리로 받아와서 뿌려줌. 이때 모든 대화를 가져오면 서버 과부화, 
+
+    // 주의) 최근 메세지중 100개만. 서버 과부하를 막으려면 find후 sortgin해서 100개 가져올게 아니고, db에 저장할때 효율적으로 저장 해야함
 
     // dbClient.connect((err,db)=>{
     //     db.db('chat').collection('chat').find({
