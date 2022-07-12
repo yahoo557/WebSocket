@@ -22,10 +22,11 @@ router.get("/:id", (req, res)=>{
     // 나머지 15자리는 상대방의 user_id값 혹은 실제 채팅방의 id를 나타내는것 일수도 있다. 
     // 왜냐하면 단수,복수의 상대에 상관없이 뒷자리는 항상 15자리였기 때문에, 상대의 user_id라고 유추하기 어렵다.
     const id = req.params.id;
-    const myId = req.params.id.slice(0,24)
-    const partnerId = req.params.id.slice(24)
+    const myId = id.slice(0,24)
+    const partnerId = id.slice(24)
 
-    
+    // 상대방과 나의 id를 슬라이스 한후 db에서 
+
     // dbClient.connect((err,db)=>{
     //     db.db('chat').collection('chat').find({
     //       room_id : roomNumber
