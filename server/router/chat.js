@@ -23,7 +23,7 @@ router.get("/:id", (req, res)=>{
     // 왜냐하면 단수,복수의 상대에 상관없이 뒷자리는 항상 15자리였기 때문에, 상대의 user_id라고 유추하기 어렵다.
     const id = req.params.id;
     const myId = id.slice(0,24)
-    const partnerId = id.slice(24)
+    const roomId = id.slice(24)
 
     // 1. 메세지 내역 불러 오기전, 해당 url로 접근이 가능한지 현재 로그인 되어있는 유저의 authentication 검증
 
@@ -38,6 +38,6 @@ router.get("/:id", (req, res)=>{
     //       room_id : roomNumber
     //     })
     //   })
-    return res.status(200).send(`Your Id : ${myId} \n Partner's Id : ${partnerId}`);
+    return res.status(200).send(`Your Id : ${myId} \n Partner's Id : ${roomId}`);
 })
 module.exports = router;

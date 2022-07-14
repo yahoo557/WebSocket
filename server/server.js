@@ -1,19 +1,18 @@
 const express = require("express")
 const app = express();
-const router = express.Router()
 require("dotenv").config({ path:'/variables.env' })
-
+app.engine('html', require('ejs').renderFile);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 const path = require("path");
-app.engine('html', require('ejs').renderFile);
-const wsModule = require('ws');
+
 
 const https = require("https")
 const https_option = require("./config/ssl.config")
 const ws = require('ws')
 const { WebSocketServer } = require('ws');
 const port = 8000
+
 const dbclient = require("./config/db.config")
 
 const routes = require('./router/index');
@@ -23,7 +22,6 @@ const nDate = new Date().toLocaleString('kr-KR', {
 app.use('/', routes);
 
 app.get("/", (req, res) => {
-  
   return res.status(200).send(`Connected Time : ${nDate}`)
 })
 

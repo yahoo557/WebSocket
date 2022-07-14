@@ -4,7 +4,8 @@ const router = express.Router();
 
 const routers = [
     ["/chat", "./chat"],
-    ["/db", "./db"]
+    ["/db", "./db"],
+    ["/user", "./user"]
 ]
 
 routers.forEach(k => {
